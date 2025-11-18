@@ -1,0 +1,140 @@
+<?xml version="1.0" ?>
+<robot name="my_drone" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+<xacro:include filename="$(find my_drone_description)/urdf/materials.xacro" />
+<xacro:include filename="$(find my_drone_description)/urdf/my_drone.gazebo" />
+
+<link name="base_link">
+  <inertial>
+    <origin xyz="4.17965341753053e-17 5.015584101036636e-16 0.017301298080480712" rpy="0 0 0"/>
+    <mass value="3.665311825085718"/>
+    <inertia ixx="0.263092" iyy="0.263092" izz="0.52304" ixy="-0.0" iyz="-0.0" ixz="-0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find my_drone_description)/meshes/base_link.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find my_drone_description)/meshes/base_link.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="blade1_2">
+  <inertial>
+    <origin xyz="-0.0001204522493546134 4.7913499967966455e-05 -0.007840222731449874" rpy="0 0 0"/>
+    <mass value="0.24117720097446887"/>
+    <inertia ixx="0.00081" iyy="0.00081" izz="0.001616" ixy="0.0" iyz="0.0" ixz="-0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.220002 -0.220002 -0.025" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find my_drone_description)/meshes/blade1_2.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="0.220002 -0.220002 -0.025" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find my_drone_description)/meshes/blade1_2.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="blade1_3">
+  <inertial>
+    <origin xyz="-6.506576456175028e-05 0.00011240046749064203 -0.007840222731449811" rpy="0 0 0"/>
+    <mass value="0.24117720097446887"/>
+    <inertia ixx="0.00081" iyy="0.00081" izz="0.001616" ixy="0.0" iyz="0.0" ixz="-0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.220002 -0.220002 -0.025" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find my_drone_description)/meshes/blade1_3.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.220002 -0.220002 -0.025" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find my_drone_description)/meshes/blade1_3.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="blade1_4">
+  <inertial>
+    <origin xyz="-8.695143702061592e-05 9.709402994390048e-05 -0.007840222731449874" rpy="0 0 0"/>
+    <mass value="0.24117720097446887"/>
+    <inertia ixx="0.00081" iyy="0.00081" izz="0.001616" ixy="0.0" iyz="0.0" ixz="-0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.220002 0.220002 -0.025" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find my_drone_description)/meshes/blade1_4.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.220002 0.220002 -0.025" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find my_drone_description)/meshes/blade1_4.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="blade1_5">
+  <inertial>
+    <origin xyz="-7.907640569984609e-05 0.00010320621577208922 -0.007840222731449874" rpy="0 0 0"/>
+    <mass value="0.24117720097446887"/>
+    <inertia ixx="0.00081" iyy="0.00081" izz="0.001616" ixy="0.0" iyz="0.0" ixz="-0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.220002 0.220002 -0.025" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find my_drone_description)/meshes/blade1_5.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="0.220002 0.220002 -0.025" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find my_drone_description)/meshes/blade1_5.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<joint name="Revolute 1" type="continuous">
+  <origin xyz="-0.220002 0.220002 0.025" rpy="0 0 0"/>
+  <parent link="base_link"/>
+  <child link="blade1_2"/>
+  <axis xyz="0.0 0.0 1.0"/>
+</joint>
+
+<joint name="Revolute 2" type="continuous">
+  <origin xyz="0.220002 0.220002 0.025" rpy="0 0 0"/>
+  <parent link="base_link"/>
+  <child link="blade1_3"/>
+  <axis xyz="0.0 0.0 1.0"/>
+</joint>
+
+<joint name="Revolute 3" type="continuous">
+  <origin xyz="0.220002 -0.220002 0.025" rpy="0 0 0"/>
+  <parent link="base_link"/>
+  <child link="blade1_4"/>
+  <axis xyz="0.0 0.0 1.0"/>
+</joint>
+
+<joint name="Revolute 4" type="continuous">
+  <origin xyz="-0.220002 -0.220002 0.025" rpy="0 0 0"/>
+  <parent link="base_link"/>
+  <child link="blade1_5"/>
+  <axis xyz="0.0 0.0 1.0"/>
+</joint>
+
+</robot>

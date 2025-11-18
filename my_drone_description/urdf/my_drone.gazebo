@@ -1,0 +1,207 @@
+<?xml version="1.0" ?>
+<robot name="my_drone" xmlns:xacro="http://www.ros.org/wiki/xacro" >
+<!-- <motorConstant>3.0e-05</motorConstant>
+ <plugin
+        filename="gz-sim-multicopter-motor-model-system"
+        name="gz::sim::systems::MulticopterMotorModel">-->
+<xacro:property name="body_color" value="Gazebo/Silver" />
+
+<gazebo reference="base_link">
+  <material>${body_color}</material>
+  <mu1>0.2</mu1>
+  <mu2>0.2</mu2>
+  <self_collide>false</self_collide>
+  <gravity>true</gravity>
+</gazebo>
+
+<gazebo reference="blade1_2">
+  <material>${body_color}</material>
+  <mu1>0.2</mu1>
+  <mu2>0.2</mu2>
+  <self_collide>false</self_collide>
+</gazebo>
+
+<gazebo reference="blade1_3">
+  <material>${body_color}</material>
+  <mu1>0.2</mu1>
+  <mu2>0.2</mu2>
+  <self_collide>false</self_collide>
+</gazebo>
+
+<gazebo reference="blade1_4">
+  <material>${body_color}</material>
+  <mu1>0.2</mu1>
+  <mu2>0.2</mu2>
+  <self_collide>false</self_collide>
+</gazebo>
+
+<gazebo reference="blade1_5">
+  <material>${body_color}</material>
+  <mu1>0.2</mu1>
+  <mu2>0.2</mu2>
+  <self_collide>false</self_collide>
+</gazebo>
+
+<!-- Multicopter velocity controller on the whole vehicle -->
+<gazebo>
+  <plugin
+    filename="gz-sim-multicopter-control-system"
+    name="gz::sim::systems::MulticopterVelocityControl">
+
+    <!-- All topics are prefixed with this -->
+    <robotNamespace>model/my_drone</robotNamespace>
+
+    <!-- Topic for Twist commands (body-frame velocity + yaw rate) -->
+    <commandSubTopic>cmd_vel</commandSubTopic>
+
+    <!-- Optional enable/disable topic (bool) -->
+    <enableSubTopic>enable</enableSubTopic>
+
+    <!-- Link representing CoM / base of the vehicle -->
+    <comLinkName>base_link</comLinkName>
+
+    <!-- Very simple gains just to get off the ground; tune later -->
+    <velocityGain>2.0 2.0 2.0</velocityGain>
+    <attitudeGain>4.0 4.0 1.0</attitudeGain>
+    <angularRateGain>3.0 3.0 1.0</angularRateGain>
+
+    <!-- Basic limits -->
+    <maxLinearAcceleration>5.0 5.0 5.0</maxLinearAcceleration>
+    <maximumLinearVelocity>3.0 3.0 3.0</maximumLinearVelocity>
+    <maximumAngularVelocity>1.0 1.0 1.0</maximumAngularVelocity>
+
+    <!-- No estimator noise for now -->
+    <linearVelocityNoiseMean>0 0 0</linearVelocityNoiseMean>
+    <linearVelocityNoiseStdDev>0 0 0</linearVelocityNoiseStdDev>
+    <angularVelocityNoiseMean>0 0 0</angularVelocityNoiseMean>
+    <angularVelocityNoiseStdDev>0 0 0</angularVelocityNoiseStdDev>
+
+    <!-- Rotor configuration; one <rotor> per motor -->
+    <rotorConfiguration>
+      <rotor>
+        <jointName>Revolute 1</jointName>
+        <forceConstant>3.0e-05</forceConstant>
+        <momentConstant>0.016</momentConstant>
+        <direction>1</direction>    <!-- ccw -->
+      </rotor>
+      <rotor>
+        <jointName>Revolute 2</jointName>
+        <forceConstant>3.0e-05</forceConstant>
+        <momentConstant>0.016</momentConstant>
+        <direction>-1</direction>   <!-- cw -->
+      </rotor>
+      <rotor>
+        <jointName>Revolute 3</jointName>
+        <forceConstant>3.0e-05</forceConstant>
+        <momentConstant>0.016</momentConstant>
+        <direction>1</direction>    <!-- ccw -->
+      </rotor>
+      <rotor>
+        <jointName>Revolute 4</jointName>
+        <forceConstant>3.0e-05</forceConstant>
+        <momentConstant>0.016</momentConstant>
+        <direction>-1</direction>   <!-- cw -->
+      </rotor>
+    </rotorConfiguration>
+  </plugin>
+</gazebo>
+
+
+<!-- Rotor 0 -->
+<gazebo>
+  <plugin
+    filename="gz-sim-multicopter-motor-model-system"
+    name="gz::sim::systems::MulticopterMotorModel">
+    <robotNamespace>model/my_drone</robotNamespace>
+    <jointName>Revolute 1</jointName>
+    <linkName>blade1_2</linkName>
+    <turningDirection>ccw</turningDirection>
+    <timeConstantUp>0.0125</timeConstantUp>
+    <timeConstantDown>0.025</timeConstantDown>
+    <maxRotVelocity>800.0</maxRotVelocity>
+    <motorConstant>3.0e-05</motorConstant>
+    <momentConstant>0.016</momentConstant>
+    <commandSubTopic>gazebo/command/motor_speed</commandSubTopic>
+    <motorNumber>0</motorNumber>
+    <rotorDragCoefficient>8.06428e-05</rotorDragCoefficient>
+    <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
+    <motorSpeedPubTopic>motor_speed/0</motorSpeedPubTopic>
+    <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
+    <motorType>velocity</motorType>
+  </plugin>
+</gazebo>
+
+<!-- Rotor 1 -->
+<gazebo>
+  <plugin
+    filename="gz-sim-multicopter-motor-model-system"
+    name="gz::sim::systems::MulticopterMotorModel">
+    <robotNamespace>model/my_drone</robotNamespace>
+    <jointName>Revolute 2</jointName>
+    <linkName>blade1_3</linkName>
+    <turningDirection>cw</turningDirection>
+    <timeConstantUp>0.0125</timeConstantUp>
+    <timeConstantDown>0.025</timeConstantDown>
+    <maxRotVelocity>800.0</maxRotVelocity>
+    <motorConstant>3.0e-05</motorConstant>
+    <momentConstant>0.016</momentConstant>
+    <commandSubTopic>gazebo/command/motor_speed</commandSubTopic>
+    <motorNumber>1</motorNumber>
+    <rotorDragCoefficient>8.06428e-05</rotorDragCoefficient>
+    <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
+    <motorSpeedPubTopic>motor_speed/1</motorSpeedPubTopic>
+    <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
+    <motorType>velocity</motorType>
+  </plugin>
+</gazebo>
+
+<!-- Rotor 2 -->
+<gazebo>
+  <plugin
+    filename="gz-sim-multicopter-motor-model-system"
+    name="gz::sim::systems::MulticopterMotorModel">
+    <robotNamespace>model/my_drone</robotNamespace>
+    <jointName>Revolute 3</jointName>
+    <linkName>blade1_4</linkName>
+    <turningDirection>ccw</turningDirection>
+    <timeConstantUp>0.0125</timeConstantUp>
+    <timeConstantDown>0.025</timeConstantDown>
+    <maxRotVelocity>800.0</maxRotVelocity>
+    <motorConstant>3.0e-05</motorConstant>
+    <momentConstant>0.016</momentConstant>
+    <commandSubTopic>gazebo/command/motor_speed</commandSubTopic>
+    <motorNumber>2</motorNumber>
+    <rotorDragCoefficient>8.06428e-05</rotorDragCoefficient>
+    <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
+    <motorSpeedPubTopic>motor_speed/2</motorSpeedPubTopic>
+    <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
+    <motorType>velocity</motorType>
+  </plugin>
+</gazebo>
+
+<!-- Rotor 3 -->
+<gazebo>
+  <plugin
+    filename="gz-sim-multicopter-motor-model-system"
+    name="gz::sim::systems::MulticopterMotorModel">
+    <robotNamespace>model/my_drone</robotNamespace>
+    <jointName>Revolute 4</jointName>
+    <linkName>blade1_5</linkName>
+    <turningDirection>cw</turningDirection>
+    <timeConstantUp>0.0125</timeConstantUp>
+    <timeConstantDown>0.025</timeConstantDown>
+    <maxRotVelocity>800.0</maxRotVelocity>
+    <motorConstant>3.0e-05</motorConstant>
+    <momentConstant>0.016</momentConstant>
+    <commandSubTopic>gazebo/command/motor_speed</commandSubTopic>
+    <motorNumber>3</motorNumber>
+    <rotorDragCoefficient>8.06428e-05</rotorDragCoefficient>
+    <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
+    <motorSpeedPubTopic>motor_speed/3</motorSpeedPubTopic>
+    <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
+    <motorType>velocity</motorType>
+  </plugin>
+</gazebo>
+
+
+</robot>
